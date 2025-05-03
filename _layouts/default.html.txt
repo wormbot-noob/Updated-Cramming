@@ -1,0 +1,24 @@
+<!-- _layouts/default.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} – {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  {% if page.css %}
+    {% for sheet in page.css %}
+      <link rel="stylesheet" href="{{ sheet | relative_url }}">
+    {% endfor %}
+  {% endif %}
+</head>
+<body>
+  {% include header.html %}
+
+  <main class="content">
+    {{ content }}
+  </main>
+
+  <!-- optional footer include could go here -->
+</body>
+</html>
