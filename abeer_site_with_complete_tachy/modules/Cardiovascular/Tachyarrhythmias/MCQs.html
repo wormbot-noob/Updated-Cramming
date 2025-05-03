@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MCQs</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #fefefe; color: #333; }
+    h1 { color: #a0522d; }
+    .question { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 6px; }
+    .question p { font-weight: bold; }
+    ul { list-style: none; padding: 0; }
+    li {
+      margin: 5px 0;
+      padding: 10px;
+      background: #f1f1f1;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    li:hover { background: #ddd; }
+    .feedback { margin-top: 10px; font-weight: bold; }
+    .correct { background-color: #c8e6c9 !important; }
+    .wrong { background-color: #ffcdd2 !important; }
+  </style>
+</head>
+<body>
+  <h1>Interactive Quiz – ABIM-style Questions</h1>
+  <div id="quiz-container"></div>
+
+  <script>
+    const questions = [
+      {
+        q: "1. A 76-year-old woman with hypertension and diabetes presents with new-onset AF. CHA₂DS₂-VASc score?",
+        options: ["A. 0", "B. 1", "C. 2", "D. 4"],
+        correct: 3,
+        explanation: "Age ≥75 = 2, Hypertension = 1, Diabetes = 1 → Total = 4"
+      },
+      {
+        q: "2. Which drug is preferred for rate control in AF with HFrEF?",
+        options: ["A. Diltiazem", "B. Metoprolol", "C. Flecainide", "D. Verapamil"],
+        correct: 1,
+        explanation: "Metoprolol is safe in HFrEF; diltiazem/verapamil contraindicated."
+      },
+      {
+        q: "3. In AF lasting >48 hours, which step is required before elective cardioversion?",
+        options: ["A. Amiodarone", "B. Anticoagulation ≥3 weeks", "C. Digoxin", "D. None if asymptomatic"],
+        correct: 1,
+        explanation: "Anticoagulation for 3+ weeks or TEE is needed to rule out atrial thrombus."
+      },
+      {
+        q: "4. What ECG finding is most typical of AF?",
+        options: ["A. Sawtooth waves", "B. Regular narrow QRS", "C. Irregularly irregular rhythm", "D. Delta waves"],
+        correct: 2,
+        explanation: "AF shows no P waves and irregularly irregular R-R intervals."
+      },
+      {
+        q: "5. A patient with palpitations converts to SVT. Next step after vagal maneuvers fail?",
+        options: ["A. Amiodarone", "B. IV Diltiazem", "C. IV Adenosine", "D. Digoxin"],
+        correct: 2,
+        explanation: "IV Adenosine is first-line for AVNRT/AVRT SVT."
+      },
+      {
+        q: "6. Which antiarrhythmic is safest in CAD with AF?",
+        options: ["A. Flecainide", "B. Propafenone", "C. Amiodarone", "D. Dofetilide"],
+        correct: 3,
+        explanation: "Amiodarone can be used in structural heart disease; IC drugs are contraindicated."
+      },
+      {
+        q: "7. Which is most concerning in a patient with wide complex tachycardia?",
+        options: ["A. QRS <120 ms", "B. AV dissociation", "C. Narrow QRS with delta wave", "D. Regular rhythm"],
+        correct: 1,
+        explanation: "AV dissociation suggests VT over SVT with aberrancy."
+      },
+      {
+        q: "8. What distinguishes Torsades de Pointes on ECG?",
+        options: ["A. Narrow complexes", "B. Alternating axis and QRS amplitude", "C. Sawtooth pattern", "D. Stable baseline"],
+        correct: 1,
+        explanation: "TdP shows polymorphic QRS twisting around baseline."
+      },
+      {
+        q: "9. First-line treatment for hemodynamically unstable AF?",
+        options: ["A. Metoprolol", "B. IV Diltiazem", "C. Synchronized cardioversion", "D. Digoxin"],
+        correct: 2,
+        explanation: "Unstable AF = immediate synchronized cardioversion."
+      },
+      {
+        q: "10. What is the main concern with AV nodal blockers in AF + WPW?",
+        options: ["A. Ineffectiveness", "B. Slowing AV conduction", "C. Promoting VF", "D. Causing bradycardia"],
+        correct: 2,
+        explanation: "Blocking AV node can enhance bypass tract conduction → VF."
+      }
+    ];
+
+    function renderQuiz() {
+      const container = document.getElementById("quiz-container");
+      questions.forEach((q, index) => {
+        const qDiv = document.createElement("div");
+        qDiv.className = "question";
+        qDiv.innerHTML = `<p>${q.q}</p><ul>${q.options.map((opt, i) =>
+          `<li onclick="checkAnswer(this, ${i === q.correct}, '${q.explanation.replace(/'/g, "\'")}')">${opt}</li>`).join("")}</ul><p class="feedback"></p>`;
+        container.appendChild(qDiv);
+      });
+    }
+
+    function checkAnswer(elem, isCorrect, explanation) {
+      const all = elem.parentElement.querySelectorAll("li");
+      all.forEach(li => {
+        li.onclick = null;
+        li.classList.remove("correct", "wrong");
+      });
+      elem.classList.add(isCorrect ? "correct" : "wrong");
+      const feedback = elem.parentElement.nextElementSibling;
+      feedback.innerHTML = isCorrect ? `✅ Correct: ${explanation}` : `❌ Incorrect: ${explanation}`;
+    }
+
+    renderQuiz();
+  </script>
+
+  <p><a href="index.html">← Back to Home</a></p>
+</body>
+</html>

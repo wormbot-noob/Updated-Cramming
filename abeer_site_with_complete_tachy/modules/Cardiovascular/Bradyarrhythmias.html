@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Bradyarrhythmias Module</title>
+  <style>
+    body { display: flex; margin: 0; font-family: Arial, sans-serif; }
+    #sidebar { width: 200px; background: #2c3e50; color: white; padding: 10px; }
+    #sidebar h2 { margin-top: 0; }
+    #sidebar nav a {
+      display: block;
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    #sidebar nav a.active,
+    #sidebar nav a:hover {
+      background: #34495e;
+    }
+    #content { flex: 1; padding: 20px; }
+    section { display: none; }
+    section.active { display: block; }
+    section ul { margin-left: 1em; }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+<div id="sidebar">
+  <h2>Bradyarrhythmias</h2>
+  <nav>
+    <a href="#overview" data-section="overview">Overview</a>
+    <a href="#sinus" data-section="sinus">Sinus Bradycardia</a>
+    <a href="#sss" data-section="sss">Sick Sinus Syndrome</a>
+    <a href="#first-degree" data-section="first-degree">1° AV Block</a>
+    <a href="#mobitz1" data-section="mobitz1">Mobitz I</a>
+    <a href="#mobitz2" data-section="mobitz2">Mobitz II</a>
+    <a href="#complete" data-section="complete">3° AV Block</a>
+    <a href="#junctional" data-section="junctional">Junctional Escape</a>
+    <a href="#algo" data-section="algo">Algorithms</a>
+    <a href="#mcq" data-section="mcq">MCQs</a>
+    <a href="#resources" data-section="resources">Resources</a>
+  </nav>
+</div>
+
+<!-- Put this just before </body> -->
+<script>
+  function showSection(id) {
+    const target = document.getElementById(id);
+    if (!target) {
+      console.warn(`showSection: no section with id="${id}"`);
+      return;
+    }
+    // hide all
+    document.querySelectorAll('#content section')
+      .forEach(sec => sec.classList.remove('active'));
+    // show requested
+    target.classList.add('active');
+    // update sidebar link highlighting
+    document.querySelectorAll('#sidebar nav a')
+      .forEach(link => link.classList.remove('active'));
+    const active = document.querySelector(`#sidebar nav a[data-section="${id}"]`);
+    if (active) active.classList.add('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // attach click handlers
+    document.querySelectorAll('#sidebar nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const sec = link.getAttribute('data-section');
+        showSection(sec);
+        // update URL hash without scrolling
+        history.replaceState(null, '', `#${sec}`);
+      });
+    });
+
+    // handle back/forward
+    window.addEventListener('hashchange', () => {
+      const sec = location.hash.slice(1);
+      if (sec) showSection(sec);
+    });
+
+    // initial display: hash or default to overview
+    const initial = location.hash.slice(1) || 'overview';
+    showSection(initial);
+  });
+</script>
+
+  </div>
+  <div id="content">
+    <section id="overview" class="active">
+      <h2>Overview of Bradyarrhythmias</h2>
+      <p>Bradyarrhythmias refer to heart rhythms that are slower than normal, generally defined as a heart rate below 60 beats per minute in adults (<a href="https://www.healio.com/cardiology/learn-the-heart/ecg-review/ecg-topic-reviews-and-criteria/sinus-bradycardia-review#:~:text=Sinus%20bradycardia%20occurs%20on%20an,than%2060%20beats%20per%20minute" target="_blank">Sinus Bradycardia ECG Review | Learn the Heart</a>). They can be broadly classified into two major categories: <strong>sinus node dysfunction (SND)</strong>, where the sinus node fails to generate or propagate impulses properly, and <strong>atrioventricular (AV) block</strong>, where the sinus impulse is generated normally but encounters delay or blockage in the AV conduction system (<a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000000628#:~:text=,wide%20range%20of%20clinical" target="_blank">2018 ACC/AHA/HRS Guideline</a>). These disturbances result in slow ventricular rates that may or may not produce symptoms, depending on the degree of bradycardia and the patient’s compensatory mechanisms.</p>
+      <h3>Common causes and contributing factors include:</h3>
+      <ul>
+        <li><strong>Physiologic or extrinsic causes:</strong> High vagal tone (e.g. in well-conditioned athletes or during sleep), medications that slow AV nodal conduction (β-blockers, non-dihydropyridine calcium channel blockers, digoxin, amiodarone), metabolic or endocrine causes (hypothyroidism, hypothermia, hypoglycemia), and situational causes (vasovagal reactions). These factors can lead to sinus bradycardia or AV block that may be reversible (<a href="https://ekgmon.com/sinus-bradycardia#:~:text=This%20encounter%20shows%20a%20slow,can%20also%20cause%20sinus%20bradycardia" target="_blank">EKGmon – Sinus Bradycardia</a>).</li>
+        <li><strong>Pathologic or intrinsic causes:</strong> Age-related degeneration (fibrosis) of the sinus node or conduction system (e.g. sick sinus syndrome, primary AV conduction disease), ischemic heart disease (especially infarction involving the sinus node artery or AV nodal artery – e.g. inferior MI can transiently cause AV block), infiltrative diseases (sarcoidosis, amyloidosis, etc.), cardiomyopathies, or congenital conditions. In sick sinus syndrome, idiopathic degenerative fibrosis of the sinus node is the most common cause (<a href="https://litfl.com/sinus-node-dysfunction-sick-sinus-syndrome/#:~:text=" target="_blank">LITFL – Sick Sinus Syndrome</a>).</li>
+      </ul>
+      <h3>Clinical presentation:</h3>
+      <p>Many bradyarrhythmias are asymptomatic, especially if mild (heart rates in the 50s) or if the patient is young and fit. When the heart rate slows to the 40s or below, patients may experience fatigue, lightheadedness, exercise intolerance, or near-syncope due to decreased cardiac output (<a href="https://www.healio.com/cardiology/learn-the-heart/ecg-review/ecg-topic-reviews-and-criteria/sinus-bradycardia-review" target="_blank">Sinus Bradycardia ECG Review</a>). More extreme bradycardia can cause syncope (e.g. Stokes-Adams attacks in high-grade AV block) or even sudden cardiac arrest if an adequate escape rhythm fails to maintain perfusion. Symptoms often correlate with cerebral hypoperfusion (dizziness, syncope) or inability to augment cardiac output during activity (fatigue, dyspnea on exertion). It is worth noting that in <strong>sick sinus syndrome (SSS)</strong>, up to 50% of patients present with syncope or presyncope (<a href="https://www.aafp.org/pubs/afp/issues/2003/0415/p1725.html" target="_blank">AAFP – SSS</a>), and there may be alternating tachyarrhythmias (atrial fibrillation or flutter) and bradyarrhythmias (the “tachy-brady syndrome”).</p>
+      <h3>Initial evaluation:</h3>
+      <p>Any patient with bradycardia should be assessed for hemodynamic stability first. If hypotension, acute altered mental status, ischemic chest pain, or other signs of instability are present, this is a medical emergency and calls for immediate intervention (see Algorithms section below). A 12-lead ECG is crucial to identify the type of bradyarrhythmia (sinus vs AV block, and the degree of block) (<a href="https://www.grepmed.com/images/13082/bradycardia" target="_blank">GrepMed – BRADI</a>). Further workup focuses on reversible causes: <strong>review medications</strong> (especially AV nodal blockers), <strong>laboratory tests</strong> (thyroid function for hypothyroidism, electrolytes like potassium for hyperkalemia, etc.), and <strong>cardiac monitoring</strong> for intermittent AV block or sinus pauses. Underlying conditions such as acute <strong>myocardial infarction</strong> (particularly inferior wall MI for AV node block) should be ruled out when appropriate.</p>
+      <h3>Management overview:</h3>
+      <ul>
+        <li><strong>Address reversible causes:</strong> Hold or reduce offending drugs, correct hypothyroidism, treat ischemia, replete electrolytes, warm if hypothermic, etc.</li>
+        <li><strong>Acute management of severe bradycardia:</strong> ACLS protocols—IV atropine, transcutaneous pacing, chronotropic infusions (dopamine, epinephrine), isoproterenol, prepare for transvenous pacing.</li>
+        <li><strong>Permanent pacemaker therapy:</strong> Indicated for symptomatic sinus node dysfunction, high-grade AV block (Mobitz II or third-degree), significant chronotropic incompetence (<a href="https://www.ncbi.nlm.nih.gov/books/NBK507823/" target="_blank">StatPearls – Pacemaker Indications</a>).</li>
+      </ul>
+      <p>Below, each subtype is discussed in detail with pathophysiology, ECG features, and management.</p>
+    </section>
+    <section id="sinus">
+      <h2>Sinus Bradycardia</h2>
+      <p><strong>Definition:</strong> Sinus bradycardia is a sinus rhythm (upright P waves in II, 1:1 AV conduction) with rate &lt;60 bpm in adults (<a href="https://www.healio.com/cardiology/learn-the-heart/ecg-review/ecg-topic-reviews-and-criteria/sinus-bradycardia-review" target="_blank">LearnTheHeart</a>).</p>
+      <h3>Pathophysiology</h3>
+      <p>Reduced sinus node automaticity due to high vagal tone (e.g. athletes), intrinsic node disease, or extrinsic factors (hypothyroidism, hypothermia, AV-nodal drugs).</p>
+      <h3>Clinical Features & Diagnosis</h3>
+      <p>Often asymptomatic if &gt;50 bpm. Symptoms include fatigue, lightheadedness, exercise intolerance, syncope when rate drops further. Diagnose by 12-lead ECG showing regular P-QRS at &lt;60 bpm.</p>
+      <h3>Management</h3>
+      <ul>
+        <li><strong>Asymptomatic:</strong> Observation; remove reversible causes; reassure.</li>
+        <li><strong>Symptomatic or unstable:</strong> IV atropine 0.5 mg; transcutaneous pacing; chronotropic infusions; prepare for pacing.</li>
+        <li><strong>Chronic symptomatic:</strong> Permanent pacemaker if sinus node dysfunction documented.</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://ekgmon.com/sinus-bradycardia" target="_blank">EKGmon – Sinus Bradycardia</a></p>
+    </section>
+    <section id="sss">
+      <h2>Sick Sinus Syndrome (Sinus Node Dysfunction)</h2>
+      <p><strong>Definition:</strong> Chronic inappropriate sinus bradycardia, pauses/arrest, or brady–tachy episodes (atrial tachyarrhythmias alternating with pauses).</p>
+      <h3>Pathophysiology</h3>
+      <p>Intrinsic sinus node fibrosis or ischemia; often in elderly. Extrinsic factors (drugs, metabolic) may unmask it. Tachy–brady due to atrial disease.</p>
+      <h3>Clinical Features</h3>
+      <p>Syncope, presyncope, dizziness, fatigue, palpitations. Chronotropic incompetence on exertion.</p>
+      <h3>ECG Diagnosis</h3>
+      <ul>
+        <li>Sinus pauses/arrest (&gt;2–3 s).</li>
+        <li>Sinoatrial exit block.</li>
+        <li>Atrial tachyarrhythmias with long pauses after termination.</li>
+      </ul>
+      <h3>Management</h3>
+      <ul>
+        <li>Remove reversible causes.</li>
+        <li>Acute: atropine, pacing as needed.</li>
+        <li><strong>Definitive:</strong> Permanent atrial or dual-chamber pacemaker for symptomatic SSS.</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://litfl.com/sinus-node-dysfunction-sick-sinus-syndrome/" target="_blank">LITFL – Brady–Tachy Syndrome</a></p>
+    </section>
+    <section id="first-degree">
+      <h2>First-Degree AV Block</h2>
+      <p><strong>Definition:</strong> PR interval &gt;200 ms, 1:1 conduction; all P waves followed by QRS (<a href="https://litfl.com/first-degree-heart-block-ecg-library/" target="_blank">LITFL</a>).</p>
+      <h3>Pathophysiology & Causes</h3>
+      <ul>
+        <li>Increased vagal tone (athletes).</li>
+        <li>AV-nodal drugs (β-blockers, verapamil, digoxin).</li>
+        <li>Inferior MI, myocarditis (Lyme), surgery, fibrosis.</li>
+      </ul>
+      <h3>Clinical Features</h3>
+      <p>Usually benign and asymptomatic. Rarely PR &gt;300 ms causes AV dyssynchrony.</p>
+      <h3>Management</h3>
+      <p>No treatment if asymptomatic. Remove reversible causes. Pacemaker only if symptomatic with marked PR prolongation.</p>
+      <p><em>ECG example:</em> <a href="https://litfl.com/first-degree-heart-block-ecg-library/" target="_blank">LITFL – 1° AV Block</a></p>
+    </section>
+    <section id="mobitz1">
+      <h2>Mobitz I (Wenckebach) Second-Degree AV Block</h2>
+      <p><strong>Definition:</strong> Progressive PR prolongation until a P is blocked, then cycle repeats (<a href="https://litfl.com/av-block-2nd-degree-mobitz-i-wenckebach-phenomenon/" target="_blank">LITFL</a>).</p>
+      <h3>Pathophysiology & Causes</h3>
+      <p>AV nodal decremental conduction (high vagal tone, inferior MI, AV-nodal drugs).</p>
+      <h3>Clinical Features</h3>
+      <p>Usually asymptomatic; may feel skipped beats. Rarely causes syncope.</p>
+      <h3>Management</h3>
+      <ul>
+        <li>Asymptomatic: observe, remove reversible causes.</li>
+        <li>Symptomatic/inferior MI: atropine; pacing rarely needed.</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://litfl.com/av-block-2nd-degree-mobitz-i-wenckebach-phenomenon/" target="_blank">LITFL – Wenckebach</a></p>
+    </section>
+    <section id="mobitz1">
+      <h2>Mobitz I (Wenckebach) Second-Degree AV Block</h2>
+      <p><strong>Definition:</strong> Progressive PR prolongation until a P is blocked, then cycle repeats (<a href="https://litfl.com/av-block-2nd-degree-mobitz-i-wenckebach-phenomenon/" target="_blank">LITFL</a>).</p>
+      <h3>Pathophysiology & Causes</h3>
+      <p>AV nodal decremental conduction (high vagal tone, inferior MI, AV-nodal drugs).</p>
+      <h3>Clinical Features</h3>
+      <p>Usually asymptomatic; may feel skipped beats. Rarely causes syncope.</p>
+      <h3>Management</h3>
+      <ul>
+        <li>Asymptomatic: observe, remove reversible causes.</li>
+        <li>Symptomatic/inferior MI: atropine; pacing rarely needed.</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://litfl.com/av-block-2nd-degree-mobitz-i-wenckebach-phenomenon/" target="_blank">LITFL – Wenckebach</a></p>
+    </section>
+    <section id="mobitz2">
+      <h2>Mobitz II Second-Degree AV Block</h2>
+      <p><strong>Definition:</strong> Fixed PR intervals with intermittent dropped QRS, no progressive prolongation (<a href="https://litfl.com/av-block-2nd-degree-mobitz-ii-hay-block/" target="_blank">LITFL</a>).</p>
+      <h3>Pathophysiology & Causes</h3>
+      <p>His-Purkinje disease (anterior MI, fibrosis, Lyme, surgery, hyperkalemia).</p>
+      <h3>Clinical Features</h3>
+      <p>May cause syncope, unpredictable progression to complete block.</p>
+      <h3>Management</h3>
+      <ul>
+        <li>Urgent monitoring; transcutaneous/transvenous pacing if unstable.</li>
+        <li><strong>Permanent pacemaker:</strong> Class I indication for all Mobitz II (unless reversible cause).</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://litfl.com/av-block-2nd-degree-mobitz-ii-hay-block/" target="_blank">LITFL – Mobitz II</a></p>
+    </section>
+    <section id="complete">
+      <h2>Third-Degree AV Block (Complete Heart Block)</h2>
+      <p><strong>Definition:</strong> No atrial impulses conduct to ventricles; AV dissociation; escape rhythm from junction or ventricle (<a href="https://litfl.com/av-block-3rd-degree-complete-heart-block/" target="_blank">LITFL</a>).</p>
+      <h3>Pathophysiology & Causes</h3>
+      <ul>
+        <li>AV nodal block (inferior MI – junctional escape, transient).</li>
+        <li>Infranodal block (anterior MI, fibrosis – ventricular escape, worse prognosis).</li>
+        <li>Other: surgery, infiltrative, toxins, hyperkalemia.</li>
+      </ul>
+      <h3>Clinical Features</h3>
+      <p>Severe bradycardia, syncope (Stokes-Adams), hypotension, cannon A waves.</p>
+      <h3>Management</h3>
+      <ul>
+        <li>Acute: immediate transcutaneous pacing; atropine/isoproterenol if temporary.</li>
+        <li><strong>Permanent pacemaker:</strong> Class I indication except truly transient causes.</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://ekgmon.com/third-degree-heart-block-junctional-escape" target="_blank">EKGmon – Complete Heart Block</a></p>
+    </section>
+    <section id="junctional">
+      <h2>Junctional Escape Rhythm</h2>
+      <p><strong>Definition:</strong> AV junction takes over at 40–60 bpm when sinus or AV node fails (<a href="https://litfl.com/junctional-escape-rhythm-ecg-library/" target="_blank">LITFL</a>).</p>
+      <h3>Pathophysiology</h3>
+      <p>Occurs in sinus pauses/arrest or complete AV block; atria may be retrogradely depolarized.</p>
+      <h3>Clinical Features & Diagnosis</h3>
+      <p>Slow but regular narrow QRS rhythm; P waves absent or inverted.</p>
+      <h3>Management</h3>
+      <ul>
+        <li>Don’t suppress; address underlying cause (pacemaker for SND or AV block).</li>
+        <li>Acute: atropine or isoproterenol if rate too slow, pacing as needed.</li>
+      </ul>
+      <p><em>ECG example:</em> <a href="https://litfl.com/junctional-escape-rhythm-ecg-library/" target="_blank">LITFL – Junctional Escape</a></p>
+    </section>
+    <section id="algo">
+      <h2>Diagnostic &amp; Treatment Algorithms</h2>
+      <ol>
+        <li><strong>Assess stability & ABCs:</strong> Hypotension, shock → ACLS bradycardia protocol.</li>
+        <li><strong>Treat reversible causes:</strong> BRADI mnemonic (Beta-blockers, R hypoxia/metabolic, A ACS, D drugs/blocks, I ICP/infection).</li>
+        <li><strong>ECG diagnosis:</strong> Sinus vs 1° block vs 2° (Mobitz I vs II) vs 3° vs junctional.</li>
+        <li><strong>Acute treatment:</strong>
+          <ul>
+            <li>Atropine 0.5 mg IV (max 3 mg).</li>
+            <li>Transcutaneous pacing if atropine fails/high-grade block.</li>
+            <li>Dopamine/epinephrine/isoproterenol infusions.</li>
+            <li>Toxidromes: glucagon/high-dose insulin for β-blocker/CCB overdose.</li>
+          </ul>
+        </li>
+        <li><strong>Definitive therapy:</strong> Pacemaker for symptomatic SND, Mobitz II, 3° block.</li>
+        <li><strong>Follow-up:</strong> Pacemaker checks; manage concomitant tachyarrhythmias; avoid AV-nodal drugs without pacing.</li>
+      </ol>
+    </section>
+      <section id="mcq">
+      <h2>Quiz: Bradyarrhythmias Self-Assessment (10 MCQs)</h2>
+      <form id="quizForm">
+        <!-- Question 1 -->
+        <div class="question" id="q1" data-answer="C">
+          <p><strong>1. A 22-year-old collegiate swimmer is asymptomatic with a resting heart rate of 48 bpm on routine exam. ECG shows sinus bradycardia at 48 bpm with PR interval 180 ms. Which is the most appropriate management?</strong></p>
+          <label><input type="radio" name="q1" value="A"> A. Atropine IV</label><br>
+          <label><input type="radio" name="q1" value="B"> B. Permanent pacemaker</label><br>
+          <label><input type="radio" name="q1" value="C"> C. Increase salt/fluid intake and observe</label><br>
+          <label><input type="radio" name="q1" value="D"> D. Begin isoproterenol infusion</label><br>
+          <label><input type="radio" name="q1" value="E"> E. Hold athletic activity and check TSH</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Athlete’s bradycardia is usually physiologic.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> In an asymptomatic, well-conditioned athlete with sinus bradycardia, no intervention is required aside from reassurance (and occasional hydration advice). Neither atropine nor pacing is indicated. Thyroid testing or activity restriction isn’t needed unless other findings arise.</p>
+        </div>
+        <hr>
+        <!-- Question 2 -->
+        <div class="question" id="q2" data-answer="B">
+          <p><strong>2. A 78-year-old woman with fatigue and two near-syncopal spells has sinus pauses up to 3 s on Holter, resting rate 42 bpm. She takes no AV-blocking drugs. Best next step?</strong></p>
+          <label><input type="radio" name="q2" value="A"> A. Oral theophylline</label><br>
+          <label><input type="radio" name="q2" value="B"> B. Permanent pacemaker</label><br>
+          <label><input type="radio" name="q2" value="C"> C. Start metoprolol</label><br>
+          <label><input type="radio" name="q2" value="D"> D. Carotid massage</label><br>
+          <label><input type="radio" name="q2" value="E"> E. Observe off meds</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Sinus pauses causing symptoms → SSS.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Symptomatic sinus node dysfunction (SSS) with documented pauses warrants Class I permanent pacing. Theophylline is inferior, β-blockers worsen bradycardia, carotid massage is diagnostic for SVT, and “just observe” risks true syncope.</p>
+        </div>
+        <hr>
+        <!-- Question 3 -->
+        <div class="question" id="q3" data-answer="B">
+          <p><strong>3. A 65-year-old man in ED after syncope has BP 90/60, pulse 34. ECG: P rate 80, QRS rate 34, no association, narrow QRS. Next best step?</strong></p>
+          <label><input type="radio" name="q3" value="A"> A. IV atropine</label><br>
+          <label><input type="radio" name="q3" value="B"> B. Transcutaneous pacing immediately</label><br>
+          <label><input type="radio" name="q3" value="C"> C. Transvenous pacemaker only</label><br>
+          <label><input type="radio" name="q3" value="D"> D. IV metoprolol</label><br>
+          <label><input type="radio" name="q3" value="E"> E. IV adenosine</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Unstable complete heart block → pace now.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Hemodynamically unstable third-degree block requires immediate external pacing. Atropine often fails in infranodal block; transvenous pacing comes after stabilization. β-blockers and adenosine are contraindicated.</p>
+        </div>
+        <hr>
+        <!-- Question 4 -->
+        <div class="question" id="q4" data-answer="B">
+          <p><strong>4. A 52-year-old with Lyme disease has 2:1 AV block, narrow QRS. Carotid massage converts to Wenckebach. Diagnosis and management?</strong></p>
+          <label><input type="radio" name="q4" value="A"> A. Mobitz II → pacemaker</label><br>
+          <label><input type="radio" name="q4" value="B"> B. Mobitz I → treat Lyme and observe</label><br>
+          <label><input type="radio" name="q4" value="C"> C. Mobitz II → isoproterenol only</label><br>
+          <label><input type="radio" name="q4" value="D"> D. Mobitz I → benign, no follow-up</label><br>
+          <label><input type="radio" name="q4" value="E"> E. High-grade block → emergent pacing</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Wenckebach emerges with vagal maneuvers.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Narrow QRS Wenckebach that worsens with carotid massage is Mobitz I at the AV node. In Lyme carditis, treat with antibiotics and monitor; pacemaker only if refractory or unstable.</p>
+        </div>
+        <hr>
+        <!-- Question 5 -->
+        <div class="question" id="q5" data-answer="C">
+          <p><strong>5. A 80-year-old with coronary disease has asymptomatic Mobitz II (4:3 conduction), mild exertional lightheadedness. BP 130/75. Next?</strong></p>
+          <label><input type="radio" name="q5" value="A"> A. Reassure, re-check in 6 months</label><br>
+          <label><input type="radio" name="q5" value="B"> B. EP study first</label><br>
+          <label><input type="radio" name="q5" value="C"> C. Permanent pacemaker soon</label><br>
+          <label><input type="radio" name="q5" value="D"> D. Outpatient isoproterenol</label><br>
+          <label><input type="radio" name="q5" value="E"> E. Exercise regimen</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Mobitz II always pacemaker.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Second-degree Mobitz II block carries high risk of progression and syncope. Even minimal symptoms warrant Class I permanent pacing. EP study isn’t needed; isoproterenol and exercise won’t prevent sudden block.</p>
+        </div>
+        <hr>
+        <!-- Question 6 -->
+        <div class="question" id="q6" data-answer="B">
+          <p><strong>6. A patient on diltiazem for AF now shows regular 50 bpm narrow QRS rhythm with persistent fibrillatory baseline. What happened?</strong></p>
+          <label><input type="radio" name="q6" value="A"> A. Atrial flutter 4:1</label><br>
+          <label><input type="radio" name="q6" value="B"> B. Complete heart block from AV nodal drug</label><br>
+          <label><input type="radio" name="q6" value="C"> C. SSS from CCB use</label><br>
+          <label><input type="radio" name="q6" value="D"> D. Torsades de pointes</label><br>
+          <label><input type="radio" name="q6" value="E"> E. VT misread as junctional rhythm</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> “Regularized AF” = junctional escape in block.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> AV-nodal blocker (diltiazem) over-suppression led to iatrogenic complete heart block with junctional escape at 50 bpm. Flutter and torsades present differently; VT would be wide QRS.</p>
+        </div>
+        <hr>
+        <!-- Question 7 -->
+        <div class="question" id="q7" data-answer="B">
+          <p><strong>7. On day 2 post-anterior MI, a patient develops P rate 80, QRS 30, BP 85/50. True statement?</strong></p>
+          <label><input type="radio" name="q7" value="A"> A. Responds to atropine and transient</label><br>
+          <label><input type="radio" name="q7" value="B"> B. Infranodal block → transvenous pacing</label><br>
+          <label><input type="radio" name="q7" value="C"> C. Benign, no intervention</label><br>
+          <label><input type="radio" name="q7" value="D"> D. Mobitz I, good prognosis</label><br>
+          <label><input type="radio" name="q7" value="E"> E. Give β-blockers</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Anterior MI block is distal and severe.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Anterior MI often injures His-Purkinje, causing infranodal complete block unresponsive to atropine. Requires urgent transvenous pacing. It’s not benign and β-blockers worsen it.</p>
+        </div>
+        <hr>
+        <!-- Question 8 -->
+        <div class="question" id="q8" data-answer="B">
+          <p><strong>8. While awaiting pacemaker for 6 s sinus arrest from amyloid SND, which drug bridges by increasing rate?</strong></p>
+          <label><input type="radio" name="q8" value="A"> A. Adenosine</label><br>
+          <label><input type="radio" name="q8" value="B"> B. Isoproterenol</label><br>
+          <label><input type="radio" name="q8" value="C"> C. Propranolol</label><br>
+          <label><input type="radio" name="q8" value="D"> D. Diltiazem</label><br>
+          <label><input type="radio" name="q8" value="E"> E. Atropine drops</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> β-agonist increases automaticity.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Isoproterenol infusion raises junctional/atrial rate. Adenosine and nodal blockers worsen bradycardia; eye-drop atropine is ineffective.</p>
+        </div>
+        <hr>
+        <!-- Question 9 -->
+        <div class="question" id="q9" data-answer="A">
+          <p><strong>9. A 60-year-old with permanent AF and slow ventricular response at 40 bpm, normal digoxin/TSH. Cause?</strong></p>
+          <label><input type="radio" name="q9" value="A"> A. Progression of AV nodal fibrosis</label><br>
+          <label><input type="radio" name="q9" value="B"> B. Paroxysmal VT</label><br>
+          <label><input type="radio" name="q9" value="C"> C. Conversion to sinus bradycardia</label><br>
+          <label><input type="radio" name="q9" value="D"> D. Hyperthyroidism</label><br>
+          <label><input type="radio" name="q9" value="E"> E. Increased sympathetic tone</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> AF with excessively slow conduction → block.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Intrinsic AV conduction disease (e.g. Lenègre’s fibrosis) can slow ventricular response despite no drugs. VT and hyperthyroidism cause tachy; sympathetic tone raises rate.</p>
+        </div>
+        <hr>
+        <!-- Question 10 -->
+        <div class="question" id="q10" data-answer="C">
+          <p><strong>10. Which pair matches arrhythmia to therapy?</strong></p>
+          <label><input type="radio" name="q10" value="A"> A. Mobitz I → pacemaker always</label><br>
+          <label><input type="radio" name="q10" value="B"> B. Complete block → meds alone</label><br>
+          <label><input type="radio" name="q10" value="C"> C. SSS with syncope → dual-chamber pacemaker</label><br>
+          <label><input type="radio" name="q10" value="D"> D. 1° AV block PR 250 ms + fatigue → IV β-agonist</label><br>
+          <label><input type="radio" name="q10" value="E"> E. Junctional escape → lidocaine</label>
+          <p class="hint" style="display:none;"><em>Hint:</em> Symptomatic SND needs pacing.</p>
+          <p class="explanation" style="display:none;"><strong>Explanation:</strong> Brady-tach syndrome with syncope is Class I for dual-chamber pacing. Mobitz I is benign if asymptomatic; complete block needs pacing, not meds alone; first-degree rarely treated; junctional escape must be supported, not suppressed.</p>
+        </div>
+        <button type="button" id="submitQuiz">Submit Answers</button>
+      </form>
+      <div id="quizResults"></div>
+    </section>
+
+    <script>
+      document.getElementById('submitQuiz').addEventListener('click', () => {
+        for (let i = 1; i <= 10; i++) {
+          const qDiv = document.getElementById('q' + i);
+          if (!qDiv) continue;
+          const correct = qDiv.dataset.answer;
+          const selected = document.querySelector(`input[name="q${i}"]:checked`);
+          const userAns = selected ? selected.value : null;
+          qDiv.classList.remove('correct','incorrect');
+          if (userAns === correct) {
+            qDiv.classList.add('correct');
+          } else {
+            qDiv.classList.add('incorrect');
+          }
+          // reveal hint and explanation
+          const hint = qDiv.querySelector('.hint');
+          const expl = qDiv.querySelector('.explanation');
+          if (hint) hint.style.display = 'block';
+          if (expl) expl.style.display = 'block';
+        }
+        document.getElementById('submitQuiz').disabled = true;
+      });
+    </script>
+
+    <section id="resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        <li>
+          <strong>2018 ACC/AHA/HRS Guideline on the Evaluation and Management of Patients with Bradycardia and Cardiac Conduction Delay:</strong>
+          Comprehensive guideline on pacemaker indications, syncope evaluation, and management algorithms.
+          <br>
+          <a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000000628#:~:text=,wide%20range%20of%20clinical" target="_blank">
+            Circulation, 2019
+          </a>
+        </li>
+        <li>
+          <strong>ACC/AHA/HRS 2008 Device-Based Therapy Guidelines:</strong>
+          Historical pacemaker indication guidelines (now superseded by 2018).
+          <br>
+          <a href="https://www.ahajournals.org/doi/10.1161/01.cir.97.13.1325#:~:text=ACC%2FAHA%20Guidelines%20for%20Implantation%20of,particularly%20if%20syncope%20has%20occurred" target="_blank">
+            Circulation, 2008
+          </a>
+        </li>
+        <li>
+          <strong>ACLS Bradycardia Algorithm – AHA:</strong> Quick-reference flowchart for unstable bradycardia management.
+        </li>
+        <li>
+          <strong>Life in the Fast Lane (LITFL) – ECG Library:</strong>
+          <ul>
+            <li><a href="https://litfl.com/first-degree-heart-block-ecg-library/" target="_blank">First-Degree AV Block</a></li>
+            <li><a href="https://litfl.com/av-block-2nd-degree-mobitz-i-wenckebach-phenomenon/" target="_blank">Mobitz I</a></li>
+            <li><a href="https://litfl.com/av-block-2nd-degree-mobitz-ii-hay-block/" target="_blank">Mobitz II</a></li>
+            <li><a href="https://litfl.com/av-block-3rd-degree-complete-heart-block/" target="_blank">Complete Heart Block</a></li>
+            <li><a href="https://litfl.com/sinus-node-dysfunction-sick-sinus-syndrome/" target="_blank">Sinus Node Dysfunction</a></li>
+            <li><a href="https://litfl.com/junctional-escape-rhythm-ecg-library/" target="_blank">Junctional Escape</a></li>
+          </ul>
+        </li>
+        <li>
+          <strong>EKGmon – Bradyarrhythmia ECG Gallery:</strong>
+          <ul>
+            <li><a href="https://ekgmon.com/sinus-bradycardia" target="_blank">Sinus Bradycardia example</a></li>
+            <li><a href="https://ekgmon.com/third-degree-heart-block-junctional-escape" target="_blank">Third-Degree Block example</a></li>
+          </ul>
+        </li>
+        <li>
+          <strong>LearnTheHeart – Healio ECG Review:</strong>
+          <ul>
+            <li><a href="https://www.healio.com/cardiology/learn-the-heart/ecg-review/ecg-topic-reviews-and-criteria/sinus-bradycardia-review" target="_blank">Sinus Bradycardia Review</a></li>
+            <li>AV Block Reviews & self-assessment quizzes</li>
+          </ul>
+        </li>
+        <li>
+          <strong>ACC.org – Bradycardia Clinical Topic Collection:</strong>
+          Articles and commentaries, including
+          <a href="https://www.acc.org/Latest-in-Cardiology/ten-points-to-remember/2021/08/31/18/37/2021-ESC-Guidelines-on-Cardiac-Pacing-ESC-2021" target="_blank">
+            2021 ESC Pacing & CRT Guidelines
+          </a>
+        </li>
+        <li>
+          <strong>ACLS Algorithms (Bradycardia) by AHA:</strong> Pocket cards & app references.
+        </li>
+      </ul>
+    </section>

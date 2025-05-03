@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heart Failure Review Mini App</title>
+  <style>
+    /* Beige-based Color Theme for Light Mode */
+    :root {
+      --background-color: #F5F5DC; /* Beige */
+      --text-color: #333;
+      --header-bg: #F5DEB3; /* Wheat */
+      --header-text: #333;
+      --nav-bg: #DEB887; /* Burlywood */
+      --link-color: #333;
+      --container-bg: #fff;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --quiz-bg: #e7f3ff;
+      --quiz-border: #cce0ff;
+    }
+    /* Dark Theme Overrides */
+    .dark-theme {
+      --background-color: #3C3B37;
+      --text-color: #dcdcdc;
+      --header-bg: #69665C;
+      --header-text: #fff;
+      --nav-bg: #5D5B55;
+      --link-color: #fff;
+      --container-bg: #4B4943;
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      /* Adjust quiz colors for better readability in dark mode */
+      --quiz-bg: #444;
+      --quiz-border: #666;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: var(--background-color);
+      color: var(--text-color);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    nav {
+      background: var(--nav-bg);
+      padding: 0.5rem 1rem;
+    }
+    nav a {
+      color: var(--link-color);
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem 2rem;
+      background: var(--container-bg);
+      margin-top: 1rem;
+      box-shadow: 0 2px 4px var(--shadow-color);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    h2 {
+      border-bottom: 2px solid var(--header-bg);
+      padding-bottom: 0.3rem;
+      color: var(--header-bg);
+    }
+    /* Each section is hidden by default; only the active section is visible */
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    ul {
+      margin-left: 1.5rem;
+    }
+    .quiz-section {
+      margin: 2rem 0;
+      padding: 1rem;
+      background: var(--quiz-bg);
+      border: 1px solid var(--quiz-border);
+    }
+    .quiz-section h3 {
+      color: var(--nav-bg);
+    }
+    .question {
+      margin: 1rem 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+    .btn {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    footer {
+      text-align: center;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    /* Settings Panel */
+    .settings-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--container-bg);
+      padding: 0.5rem;
+      margin: 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .settings-panel label {
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Heart Failure Review</h1>
+    <p>A detailed, high-yield review and interactive quiz for internal medicine residents</p>
+  </header>
+  
+  <nav>
+    <a data-target="intro" class="nav-link">Introduction</a>
+    <a data-target="pathophysiology" class="nav-link">Pathophysiology</a>
+    <a data-target="classification" class="nav-link">Classification</a>
+    <a data-target="diagnosis" class="nav-link">Diagnosis</a>
+    <a data-target="management" class="nav-link">Management</a>
+    <a data-target="summary" class="nav-link">Summary</a>
+    <a data-target="quiz" class="nav-link">Quiz</a>
+  </nav>
+  
+  <!-- Settings Panel for Font Size & Theme -->
+  <div class="container">
+    <div class="settings-panel">
+      <div>
+        <label for="fontSizeControl">Adjust Font Size:</label>
+        <input type="range" id="fontSizeControl" min="14" max="24" value="16">
+      </div>
+      <div>
+        <label for="themeToggle">Theme:</label>
+        <select id="themeToggle">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Content Container -->
+  <div class="container">
+    <!-- I. Introduction -->
+    <section id="intro" class="section active">
+      <h2>Introduction</h2>
+      <p><strong>Definition & Overview:</strong> Heart failure (HF) is a clinical syndrome in which the heart’s structural and/or functional abnormalities impair its ability to provide adequate blood flow to meet the metabolic needs of the body. This syndrome is the end result of various cardiac insults (such as myocardial infarction, chronic hypertension, or cardiomyopathy) and is associated with a significant burden of morbidity and mortality.</p>
+      <p><strong>Epidemiology & Importance:</strong> HF is a leading cause of hospitalization, particularly among the elderly. Risk factors include coronary artery disease, high blood pressure, diabetes mellitus, obesity, and valvular heart disease. Recognizing HF early and initiating guideline-directed medical therapy can dramatically improve outcomes.</p>
+      <p><strong>Learning Objectives:</strong></p>
+      <ul>
+        <li>Understand the pathophysiology behind both systolic and diastolic dysfunction.</li>
+        <li>Master the classifications including NYHA functional classes and ACC/AHA stages.</li>
+        <li>Learn the diagnostic workup including imaging and biomarkers.</li>
+        <li>Review comprehensive management protocols, including medications, indications for device therapy (ICD, CRT, pacemakers), and advanced treatment options.</li>
+      </ul>
+    </section>
+    
+    <!-- II. Pathophysiology -->
+    <section id="pathophysiology" class="section">
+      <h2>Pathophysiology</h2>
+      <p><strong>Systolic Dysfunction (HFrEF):</strong> This subtype is characterized by a reduced ejection fraction (EF ≤40%). It often results from a loss of contractile myocardial tissue (e.g., after an infarction) and is marked by ventricular dilation and wall thinning. The decreased contractility impairs forward flow and triggers neurohormonal activation.</p>
+      <p><strong>Diastolic Dysfunction (HFpEF):</strong> Despite a preserved EF (≥50%), these patients have impaired ventricular relaxation and stiffness leading to increased filling pressures. Chronic hypertension, aging, and infiltrative diseases are common causes.</p>
+      <p><strong>Neurohormonal Activation & Ventricular Remodeling:</strong> In both forms, “overactivation” of the sympathetic nervous system and the renin–angiotensin–aldosterone system (RAAS) occurs. This results in vasoconstriction, salt and water retention, and maladaptive remodeling with cytokine release. Over time, structural changes—such as hypertrophy or dilation—worsen the heart’s function.</p>
+    </section>
+    
+    <!-- III. Classification -->
+    <section id="classification" class="section">
+      <h2>Classification</h2>
+      <p><strong>By Ejection Fraction:</strong></p>
+      <ul>
+        <li><strong>HFrEF (Reduced EF):</strong> EF ≤40%. This represents a failure in contractility.</li>
+        <li><strong>HFpEF (Preserved EF):</strong> EF ≥50%. The predominant problem is the impaired relaxation and compliance of the ventricle.</li>
+        <li><strong>HFmrEF (Mid-Range):</strong> EF between 41–49%, showing features overlapping with both HFrEF and HFpEF.</li>
+      </ul>
+      <p><strong>Functional Classifications:</strong></p>
+      <ul>
+        <li><strong>NYHA Functional Class:</strong>
+          <ul>
+            <li><strong>Class I:</strong> Asymptomatic with ordinary exertion.</li>
+            <li><strong>Class II:</strong> Mild symptoms; slight limitation during ordinary activity.</li>
+            <li><strong>Class III:</strong> Marked limitation; comfortable only at rest.</li>
+            <li><strong>Class IV:</strong> Severe limitations; symptoms present even at rest.</li>
+          </ul>
+        </li>
+        <li><strong>ACC/AHA Staging:</strong>
+          <ul>
+            <li><strong>Stage A:</strong> At risk for HF, but without structural heart disease or symptoms.</li>
+            <li><strong>Stage B:</strong> Structural heart disease present yet asymptomatic.</li>
+            <li><strong>Stage C:</strong> Structural heart disease with prior or current HF symptoms.</li>
+            <li><strong>Stage D:</strong> Refractory HF requiring specialized interventions (e.g., transplant, LVAD).</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    
+    <!-- IV. Clinical Features & Diagnosis -->
+    <section id="diagnosis" class="section">
+      <h2>Clinical Features & Diagnosis</h2>
+      <p><strong>Symptoms:</strong> Patients typically complain of dyspnea on exertion, orthopnea, paroxysmal nocturnal dyspnea, and fatigue. Reduced exercise tolerance reflects decreased cardiac output and pulmonary congestion.</p>
+      <p><strong>Physical Examination:</strong> Common findings include:</p>
+      <ul>
+        <li><strong>Jugular Venous Distension (JVD):</strong> Indicates elevated right-sided filling pressures.</li>
+        <li><strong>Pulmonary Rales:</strong> Suggestive of pulmonary edema.</li>
+        <li><strong>Peripheral Edema:</strong> Often bilateral due to increased hydrostatic pressures.</li>
+        <li><strong>S3 Gallop:</strong> A sign of volume overload and a dilated left ventricle.</li>
+        <li><strong>S4 Gallop:</strong> May indicate a stiff, non-compliant ventricle.</li>
+      </ul>
+      <p><strong>Diagnostic Modalities:</strong></p>
+      <ul>
+        <li><strong>Electrocardiogram (ECG):</strong> May show evidence of prior infarction, arrhythmias, or left ventricular hypertrophy.</li>
+        <li><strong>Chest X‑ray:</strong> Typically reveals cardiomegaly and pulmonary vascular congestion.</li>
+        <li><strong>Echocardiography:</strong> The gold standard for evaluating EF, wall motion abnormalities, and chamber sizes.</li>
+        <li><strong>Biomarkers:</strong> Elevated BNP or NT‑proBNP levels correlate with severity and aid in both diagnosis and prognosis.</li>
+      </ul>
+    </section>
+    
+    <!-- V. Management -->
+    <section id="management" class="section">
+      <h2>Management</h2>
+      <p><strong>Non‑Pharmacologic Strategies:</strong></p>
+      <ul>
+        <li><strong>Lifestyle Modifications:</strong> Sodium restriction (typically <2 g/day), fluid management, weight monitoring, and aerobic exercise.</li>
+        <li><strong>Patient Education:</strong> Emphasize the importance of medication adherence, recognition of worsening symptoms, and timely follow-up.</li>
+      </ul>
+      <p><strong>Pharmacologic Therapy:</strong> The cornerstone of treatment includes:</p>
+      <ul>
+        <li><strong>ACE Inhibitors/ARBs:</strong> Reduce afterload and prevent adverse remodeling. Begin at low doses and titrate as tolerated.</li>
+        <li><strong>Beta‑Blockers:</strong> Carvedilol, metoprolol succinate, or bisoprolol are used to blunt the effects of excessive sympathetic stimulation, improving survival.</li>
+        <li><strong>Mineralocorticoid Receptor Antagonists (MRAs):</strong> Spironolactone or eplerenone decrease mortality—watch for hyperkalemia.</li>
+        <li><strong>Diuretics:</strong> Loop diuretics (e.g., furosemide, torsemide) for symptomatic relief from congestion.</li>
+        <li><strong>ARNI:</strong> Sacubitril/valsartan is indicated in select patients to further reduce mortality and hospitalization.</li>
+        <li><strong>Additional Therapies:</strong> In some recent guidelines, SGLT2 inhibitors (e.g., dapagliflozin) have also shown benefit in reducing HF hospitalizations.</li>
+        <li><strong>Digoxin:</strong> Can be considered for rate control in atrial fibrillation or symptomatic relief; however, it does not reduce mortality.</li>
+      </ul>
+      <p><strong>Device Therapy & Advanced Management:</strong></p>
+      <ul>
+        <li><strong>ICD (Implantable Cardioverter-Defibrillator):</strong> Recommended for patients with HFrEF (EF ≤35%) despite optimal medical therapy, particularly in those with NYHA Class II–III symptoms and an expected survival of >1 year, to prevent sudden cardiac death.</li>
+        <li><strong>CRT (Cardiac Resynchronization Therapy):</strong> Indicated in patients with LVEF ≤35%, a QRS duration ≥150 ms (especially with left bundle branch block), and persistent symptoms despite guideline-directed medical therapy.</li>
+        <li><strong>Pacing:</strong> Permanent pacemakers are indicated in symptomatic bradycardia or advanced AV block.</li>
+        <li><strong>Surgical/Mechanical Support:</strong> For patients with end-stage HF (NYHA Class IV) refractory to medical management, options such as LVAD as bridge-to-transplant or destination therapy, or ultimately cardiac transplantation, are considered.</li>
+      </ul>
+      <p><strong>Follow-Up & Optimization:</strong> Regular follow-up is essential to monitor volume status, adjust medication dosages, and reassess symptoms. Titration protocols and multidisciplinary clinics can improve long‑term outcomes.</p>
+    </section>
+    
+    <!-- VI. High‑Yield Summary -->
+    <section id="summary" class="section">
+      <h2>High-Yield Summary</h2>
+      <ul>
+        <li>• HF is a syndrome due to structural/functional cardiac abnormalities leading to insufficient blood flow.</li>
+        <li>• Differentiate between HFrEF, HFpEF, and HFmrEF based on ejection fraction.</li>
+        <li>• NYHA and ACC/AHA classifications help stage disease severity and guide therapy.</li>
+        <li>• Echocardiography and biomarkers (BNP/NT‑proBNP) are central to diagnosis.</li>
+        <li>• Guideline-directed medical therapy (ACE inhibitors/ARBs, beta‑blockers, MRAs) is key in reducing mortality.</li>
+        <li>• Diuretics relieve symptoms; advanced therapies (ARNI, SGLT2 inhibitors) may augment treatment.</li>
+        <li>• Device therapy (ICD, CRT, pacemakers) is critical for select patients with severe systolic dysfunction.</li>
+      </ul>
+    </section>
+    
+    <!-- VII. Interactive Quiz -->
+    <section id="quiz" class="section quiz-section">
+      <h2>Quiz: Test Your Knowledge</h2>
+      <form id="quizForm">
+        <!-- Question 1 -->
+        <div class="question">
+          <p><strong>1. Which pharmacologic class has been shown to reduce mortality most consistently in patients with HFrEF?</strong></p>
+          <label><input type="radio" name="q1" value="a"> Diuretics</label><br>
+          <label><input type="radio" name="q1" value="b"> Beta‑blockers</label><br>
+          <label><input type="radio" name="q1" value="c"> Calcium Channel Blockers</label><br>
+          <label><input type="radio" name="q1" value="d"> Statins</label>
+        </div>
+        
+        <!-- Question 2 -->
+        <div class="question">
+          <p><strong>2. Which diagnostic biomarker is particularly useful for establishing the diagnosis of heart failure?</strong></p>
+          <label><input type="radio" name="q2" value="a"> Troponin I</label><br>
+          <label><input type="radio" name="q2" value="b"> BNP/NT‑proBNP</label><br>
+          <label><input type="radio" name="q2" value="c"> D‑Dimer</label><br>
+          <label><input type="radio" name="q2" value="d"> CRP</label>
+        </div>
+        
+        <!-- Question 3 -->
+        <div class="question">
+          <p><strong>3. What primarily distinguishes HFrEF from HFpEF?</strong></p>
+          <label><input type="radio" name="q3" value="a"> Heart rate variations</label><br>
+          <label><input type="radio" name="q3" value="b"> Differences in ejection fraction</label><br>
+          <label><input type="radio" name="q3" value="c"> Chamber size variations</label><br>
+          <label><input type="radio" name="q3" value="d"> Presence of a murmur</label>
+        </div>
+        
+        <!-- Question 4 -->
+        <div class="question">
+          <p><strong>4. What is the first‑line treatment for symptomatic fluid overload in heart failure?</strong></p>
+          <label><input type="radio" name="q4" value="a"> ACE inhibitors</label><br>
+          <label><input type="radio" name="q4" value="b"> Diuretics</label><br>
+          <label><input type="radio" name="q4" value="c"> Beta‑blockers</label><br>
+          <label><input type="radio" name="q4" value="d"> Digoxin</label>
+        </div>
+        
+        <!-- Question 5 -->
+        <div class="question">
+          <p><strong>5. Which group of patients is most likely to benefit from CRT?</strong></p>
+          <label><input type="radio" name="q5" value="a"> Patients with narrow QRS complexes</label><br>
+          <label><input type="radio" name="q5" value="b"> Patients with LVEF above 50%</label><br>
+          <label><input type="radio" name="q5" value="c"> Patients with LVEF ≤35% and QRS duration ≥150 ms, particularly with LBBB</label><br>
+          <label><input type="radio" name="q5" value="d"> Patients with uncontrolled hypertension</label>
+        </div>
+        
+        <!-- Question 6 -->
+        <div class="question">
+          <p><strong>6. In which NYHA class do patients experience symptoms at rest?</strong></p>
+          <label><input type="radio" name="q6" value="a"> Class I</label><br>
+          <label><input type="radio" name="q6" value="b"> Class II</label><br>
+          <label><input type="radio" name="q6" value="c"> Class III</label><br>
+          <label><input type="radio" name="q6" value="d"> Class IV</label>
+        </div>
+        
+        <!-- Question 7 -->
+        <div class="question">
+          <p><strong>7. Which ACC/AHA Stage describes patients with structural heart disease who have never had symptoms of HF?</strong></p>
+          <label><input type="radio" name="q7" value="a"> Stage A</label><br>
+          <label><input type="radio" name="q7" value="b"> Stage B</label><br>
+          <label><input type="radio" name="q7" value="c"> Stage C</label><br>
+          <label><input type="radio" name="q7" value="d"> Stage D</label>
+        </div>
+        
+        <!-- Question 8 -->
+        <div class="question">
+          <p><strong>8. Which non‑pharmacologic intervention is most critical in managing chronic heart failure?</strong></p>
+          <label><input type="radio" name="q8" value="a"> Fluid and sodium restriction</label><br>
+          <label><input type="radio" name="q8" value="b"> Increased salt intake</label><br>
+          <label><input type="radio" name="q8" value="c"> Complete bed rest</label><br>
+          <label><input type="radio" name="q8" value="d"> High‑intensity exercise</label>
+        </div>
+        
+        <!-- Question 9 -->
+        <div class="question">
+          <p><strong>9. Which imaging modality is considered the gold standard for assessing left ventricular function in heart failure?</strong></p>
+          <label><input type="radio" name="q9" value="a"> MRI</label><br>
+          <label><input type="radio" name="q9" value="b"> Echocardiogram</label><br>
+          <label><input type="radio" name="q9" value="c"> Chest X‑ray</label><br>
+          <label><input type="radio" name="q9" value="d"> CT scan</label>
+        </div>
+        
+        <!-- Question 10 -->
+        <div class="question">
+          <p><strong>10. What class of drugs, when added to ACE inhibitors and beta‑blockers, further reduces mortality in HF patients?</strong></p>
+          <label><input type="radio" name="q10" value="a"> Calcium channel blockers</label><br>
+          <label><input type="radio" name="q10" value="b"> Mineralocorticoid receptor antagonists</label><br>
+          <label><input type="radio" name="q10" value="c"> Digoxin</label><br>
+          <label><input type="radio" name="q10" value="d"> Nitrates</label>
+        </div>
+        
+        <!-- Question 11 -->
+        <div class="question">
+          <p><strong>11. Which neurohormonal system’s overactivation contributes significantly to ventricular remodeling in heart failure?</strong></p>
+          <label><input type="radio" name="q11" value="a"> Parasympathetic system</label><br>
+          <label><input type="radio" name="q11" value="b"> RAAS</label><br>
+          <label><input type="radio" name="q11" value="c"> Both sympathetic and RAAS</label><br>
+          <label><input type="radio" name="q11" value="d"> None of the above</label>
+        </div>
+        
+        <!-- Question 12 -->
+        <div class="question">
+          <p><strong>12. What is the primary mechanism by which beta‑blockers improve outcomes in HFrEF?</strong></p>
+          <label><input type="radio" name="q12" value="a"> Direct positive inotropy</label><br>
+          <label><input type="radio" name="q12" value="b"> Reduction of sympathetic overdrive</label><br>
+          <label><input type="radio" name="q12" value="c"> Vasodilation</label><br>
+          <label><input type="radio" name="q12" value="d"> Heart rate acceleration</label>
+        </div>
+        
+        <!-- Question 13 -->
+        <div class="question">
+          <p><strong>13. Which of the following is an emerging therapy shown to reduce HF-related hospitalizations?</strong></p>
+          <label><input type="radio" name="q13" value="a"> SGLT2 inhibitors</label><br>
+          <label><input type="radio" name="q13" value="b"> Calcium channel blockers</label><br>
+          <label><input type="radio" name="q13" value="c"> Nitrates</label><br>
+          <label><input type="radio" name="q13" value="d"> Statins</label>
+        </div>
+        
+        <!-- Question 14 -->
+        <div class="question">
+          <p><strong>14. Which device is indicated in patients with HFrEF (EF ≤35%), persisting symptoms despite optimal therapy, and a life expectancy of >1 year to reduce sudden cardiac death?</strong></p>
+          <label><input type="radio" name="q14" value="a"> CRT only</label><br>
+          <label><input type="radio" name="q14" value="b"> ICD</label><br>
+          <label><input type="radio" name="q14" value="c"> Permanent Pacemaker</label><br>
+          <label><input type="radio" name="q14" value="d"> LVAD</label>
+        </div>
+        
+        <!-- Question 15 -->
+        <div class="question">
+          <p><strong>15. What is the most appropriate indication for cardiac resynchronization therapy (CRT) in heart failure patients?</strong></p>
+          <label><input type="radio" name="q15" value="a"> LVEF >50% with a narrow QRS</label><br>
+          <label><input type="radio" name="q15" value="b"> LVEF ≤35% with a QRS duration ≥150 ms and LBBB morphology</label><br>
+          <label><input type="radio" name="q15" value="c"> Any patient with heart failure regardless of QRS duration</label><br>
+          <label><input type="radio" name="q15" value="d"> Only in patients with atrial fibrillation</label>
+        </div>
+        
+        <button type="button" class="btn" onclick="checkQuiz()">Submit Quiz</button>
+      </form>
+      <div id="result" class="result"></div>
+    </section>
+  </div>
+  
+  <footer>
+    <p>© 2025 Heart Failure Review Mini App</p>
+  </footer>
+  
+  <script>
+    // Adjustable Font Size using slider
+    const fontSizeControl = document.getElementById("fontSizeControl");
+    fontSizeControl.addEventListener("input", function() {
+      document.documentElement.style.fontSize = fontSizeControl.value + "px";
+    });
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById("themeToggle");
+    themeToggle.addEventListener("change", function() {
+      if (themeToggle.value === "dark") {
+        document.body.classList.add("dark-theme");
+      } else {
+        document.body.classList.remove("dark-theme");
+      }
+    });
+
+    // Navigation handled as independent sections
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.section');
+    
+    function showSection(id) {
+      sections.forEach(section => {
+        if (section.id === id) {
+          section.classList.add('active');
+        } else {
+          section.classList.remove('active');
+        }
+      });
+    }
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        showSection(targetId);
+      });
+    });
+
+    // Quiz functionality with 15 questions
+    const answers = {
+      q1: "b",
+      q2: "b",
+      q3: "b",
+      q4: "b",
+      q5: "c",
+      q6: "d",
+      q7: "b",
+      q8: "a",
+      q9: "b",
+      q10: "b",
+      q11: "c",
+      q12: "b",
+      q13: "a",
+      q14: "b",
+      q15: "b"
+    };
+
+    function checkQuiz() {
+      let score = 0;
+      const total = Object.keys(answers).length;
+      
+      for (let key in answers) {
+        const radios = document.getElementsByName(key);
+        for (let i = 0; i < radios.length; i++) {
+          if (radios[i].checked && radios[i].value === answers[key]) {
+            score++;
+          }
+        }
+      }
+      const resultText = `You got ${score} out of ${total} correct.`;
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>

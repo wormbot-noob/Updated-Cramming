@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive ACS Mini-App Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font as default */
+        }
+        /* Style for active navigation link */
+        .nav-link.active {
+            background-color: #1d4ed8; /* Equivalent to bg-blue-700 */
+            color: white;
+        }
+        /* Style for content sections */
+        .content-section {
+            display: none; /* Hide sections by default */
+        }
+        .content-section.active {
+            display: block; /* Show active section */
+        }
+        /* MCQ Styling */
+        .mcq-option {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .mcq-option.selected {
+            background-color: #dbeafe; /* bg-blue-100 */
+            border-color: #3b82f6; /* border-blue-500 */
+        }
+        .mcq-option.correct {
+            background-color: #dcfce7; /* bg-green-100 */
+            border-color: #22c55e; /* border-green-500 */
+        }
+        .mcq-option.incorrect {
+            background-color: #fee2e2; /* bg-red-100 */
+            border-color: #ef4444; /* border-red-500 */
+        }
+        .explanation {
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            font-size: 0.875rem; /* text-sm */
+        }
+        /* Add Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <nav class="w-full md:w-64 bg-blue-600 text-white p-4 md:sticky md:top-0 md:h-screen overflow-y-auto">
+            <h2 class="text-xl font-bold mb-6">ACS Review Sections</h2>
+            <ul>
+                <li><a href="#basics" class="nav-link block py-2 px-4 rounded hover:bg-blue-700 active">Basics</a></li>
+                <li><a href="#evaluation" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">Evaluation & Diagnosis</a></li>
+                <li><a href="#ecg" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">ECG Interpretation</a></li>
+                <li><a href="#algorithms" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">Management Algorithms</a></li>
+                <li><a href="#medications" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">Key Medications</a></li>
+                <li><a href="#pitfalls" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">Pitfalls & Pearls</a></li>
+                <li><a href="#complications" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">Complications</a></li>
+                <li><a href="#mcq" class="nav-link block py-2 px-4 rounded hover:bg-blue-700">Knowledge Check (MCQs)</a></li>
+            </ul>
+            <div class="mt-8 text-xs text-blue-200">
+                <p>Current Date: April 19, 2025</p>
+                <p>Location: Zarqa, Jordan</p>
+                <p class="mt-2">Disclaimer: Educational use only. Refer to current guidelines.</p>
+            </div>
+        </nav>
+
+        <main class="flex-1 p-6 md:p-10">
+
+            <section id="basics" class="content-section active bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 1: ACS Basics - The Foundation</h1>
+                <div class="prose max-w-none">
+                    <ol>
+                        <li>
+                            <h3 class="font-semibold">Definition:</h3>
+                            <p>ACS is a spectrum of clinical syndromes caused by acute myocardial ischemia (imbalance between myocardial oxygen supply and demand), typically due to rupture or erosion of an unstable atherosclerotic plaque leading to thrombus formation and coronary artery occlusion.</p>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">The Spectrum:</h3>
+                            <ul>
+                                <li><strong>Unstable Angina (UA):</strong> Myocardial ischemia <em>without</em> necrosis (negative troponins). Presents as new-onset severe angina, accelerating angina (more frequent, severe, or prolonged), or angina at rest. ECG may show ST depression, T-wave inversion, or be normal.</li>
+                                <li><strong>Non-ST-Elevation Myocardial Infarction (NSTEMI):</strong> Myocardial ischemia <em>with</em> necrosis (positive troponins). Similar presentation to UA, but evidence of myocyte death exists. ECG typically shows ST depression, T-wave inversion, or may be non-specific. No ST elevation.</li>
+                                <li><strong>ST-Elevation Myocardial Infarction (STEMI):</strong> Complete or near-complete coronary artery occlusion causing transmural myocardial ischemia and necrosis (positive troponins). Defined by characteristic ST-segment elevation on ECG in contiguous leads or new Left Bundle Branch Block (LBBB) with concerning clinical picture. Requires emergent reperfusion.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">Pathophysiology Simplified:</h3>
+                            <p>Atherosclerotic Plaque → Plaque Rupture/Erosion → Platelet Adhesion/Aggregation & Coagulation Cascade Activation → Thrombus Formation → Reduced Coronary Blood Flow → Ischemia +/- Infarction.</p>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="evaluation" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 2: Initial Evaluation & Diagnosis</h1>
+                 <div class="prose max-w-none">
+                    <ol>
+                        <li>
+                            <h3 class="font-semibold">Clinical Presentation:</h3>
+                            <ul>
+                                <li><strong>Typical:</strong> Retrosternal chest pain/pressure ("crushing," "heavy"), radiating to left arm/jaw/neck/back, lasting > 10-20 mins, associated with diaphoresis, nausea/vomiting, shortness of breath, anxiety.</li>
+                                <li><strong>Atypical:</strong> Common in women, elderly, diabetics. May present as epigastric pain, indigestion, isolated dyspnea, fatigue, syncope, altered mental status. Maintain high index of suspicion!</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">Key Immediate Actions (&lt; 10 minutes of arrival):</h3>
+                            <ul>
+                                <li><strong>Focused H&P:</strong> Assess symptoms, timing, risk factors, contraindications to therapies.</li>
+                                <li><strong>Vital Signs & O2 Sat:</strong> Supplemental O2 <em>only if</em> O2 sat < 90%, respiratory distress, or high-risk hypoxemia features.</li>
+                                <li><strong>12-Lead ECG:</strong> <strong>CRITICAL.</strong> Obtain and interpret within 10 minutes. Repeat serially (e.g., q15-30 min initially) or with change in symptoms.</li>
+                                <li><strong>Cardiac Biomarkers:</strong> Troponin I or T. Get baseline, repeat at 1-3 hours and 3-6 hours (per institutional protocol/assay generation). Remember troponins can be initially negative even in MI.</li>
+                                <li><strong>Basic Labs:</strong> CBC, BMP, Coagulation panel (PT/INR, PTT), Lipid panel.</li>
+                                <li><strong>Portable Chest X-ray:</strong> Usually within 30 mins. Assess for alternative diagnoses (e.g., dissection, pneumothorax) or complications (e.g., heart failure).</li>
+                                <li><strong>Establish IV Access.</strong></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="ecg" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 3: High-Yield ECG Interpretation in ACS</h1>
+                 <div class="prose max-w-none">
+                    <p><em>(Remember: Compare to old ECGs whenever possible!)</em></p>
+                    <ol>
+                        <li>
+                            <h3 class="font-semibold">STEMI:</h3>
+                            <ul>
+                                <li><strong>Definition:</strong> New ST elevation at the J-point in ≥2 contiguous leads:
+                                    <ul>
+                                        <li>≥1 mm (0.1 mV) in all leads EXCEPT V2-V3.</li>
+                                        <li>Leads V2-V3: ≥2 mm in men ≥40 yrs; ≥2.5 mm in men <40 yrs; ≥1.5 mm in women.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Localization & Reciprocal Changes:</strong>
+                                    <ul>
+                                        <li><strong>Anterior (LAD):</strong> ST ↑ in V1-V4 (Septal V1-V2; Anterior V3-V4). Reciprocal ST ↓ in Inferior leads (II, III, aVF).</li>
+                                        <li><strong>Inferior (RCA or LCx):</strong> ST ↑ in II, III, aVF. Reciprocal ST ↓ in aVL, I, possibly V1-V3. <em>Always get Right-sided leads (V4R) if inferior STEMI suspected (check for RV infarct).</em></li>
+                                        <li><strong>Lateral (LCx or Diagonal of LAD):</strong> ST ↑ in I, aVL, V5-V6. Reciprocal ST ↓ in Inferior leads.</li>
+                                        <li><strong>Posterior (LCx or RCA):</strong> Often subtle. Look for ST ↓ >1mm & tall R waves in V1-V3 (mirror image of anterior STEMI leads). Confirm with posterior leads (V7-V9) showing ST ↑ ≥0.5 mm.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>New LBBB:</strong> In the context of concerning symptoms, treat as STEMI equivalent. Use <strong>Sgarbossa Criteria</strong> (and modified versions) to identify MI in presence of LBBB.
+                                    <ul>
+                                        <li>Concordant ST elevation ≥1 mm in any lead (+5 points).</li>
+                                        <li>Concordant ST depression ≥1 mm in V1-V3 (+3 points).</li>
+                                        <li>Discordant ST elevation ≥5 mm (now often modified to ST elevation ≥25% of preceding S-wave depth) (+2 points). Score ≥3 is specific for MI.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">NSTEMI / UA:</h3>
+                            <ul>
+                                <li><strong>ST Depression:</strong> ≥0.5 mm horizontal or downsloping ST depression in ≥2 contiguous leads.</li>
+                                <li><strong>T-Wave Inversion (TWI):</strong> ≥1 mm deep TWI in ≥2 contiguous leads with prominent R wave or R/S ratio >1. Dynamic TWI are more concerning.</li>
+                                <li><strong>Transient ST Elevation:</strong> ST elevation ≥0.5mm for <20 minutes.</li>
+                                <li><em>Note:</em> A normal ECG does NOT rule out ACS.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">High-Risk Patterns (Often treated like STEMI or need urgent cath):</h3>
+                            <ul>
+                                <li><strong>Wellens' Syndrome:</strong> Deeply inverted or biphasic T waves in V2-V3 during a pain-free period. Indicates critical proximal LAD stenosis. High risk for imminent large anterior MI.</li>
+                                <li><strong>De Winter's T Waves:</strong> Upsloping ST depression at the J-point with tall, peaked, symmetric T waves in precordial leads (V1-V6). STEMI equivalent (LAD occlusion).</li>
+                            </ul>
+                        </li>
+                         <li>
+                            <h3 class="font-semibold">STEMI Mimics (Important Differentials on ECG):</h3>
+                            <ul>
+                                <li><strong>Pericarditis:</strong> Diffuse concave ST elevation (often all leads except aVR, V1), PR depression (often inverse PR elevation in aVR). No reciprocal ST depression (except aVR/V1).</li>
+                                <li><strong>Benign Early Repolarization (BER):</strong> Common in young, healthy individuals. Diffuse ST elevation, often with J-point notching ("fish-hook"). ST/T wave ratio in V6 usually <0.25. Stable pattern over time.</li>
+                                <li><strong>Left Ventricular Hypertrophy (LVH):</strong> Strain pattern (ST depression and TWI) in lateral leads (I, aVL, V5-V6). Can have ST elevation in V1-V3. Use voltage criteria (e.g., Sokolow-Lyon).</li>
+                                <li><strong>Hyperkalemia:</strong> Peaked T waves, widened QRS, diminished P waves, sine wave pattern.</li>
+                                <li><strong>Brugada Syndrome:</strong> Pseudo-RBBB pattern with ST elevation in V1-V2 (Type 1: Coved ST elevation >2mm; Type 2/3: Saddleback ST elevation). Genetic channelopathy.</li>
+                                <li><strong>Pulmonary Embolism:</strong> S1Q3T3 pattern (S wave in I, Q wave in III, TWI in III), TWI V1-V4, RBBB (often transient), sinus tachycardia.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="algorithms" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 4: Management Algorithms</h1>
+                 <div class="prose max-w-none">
+                    <ol>
+                        <li>
+                            <h3 class="font-semibold">All Suspected ACS - Initial Management:</h3>
+                            <ul>
+                                <li><strong>Aspirin:</strong> 162-325 mg chewable non-enteric coated ASAP (unless true allergy).</li>
+                                <li><strong>Nitroglycerin:</strong> Sublingual 0.4 mg q5min x3 doses for ongoing pain (unless hypotensive, bradycardic, suspected RV infarct, or recent PDE5 inhibitor use). IV NTG if symptoms persist.</li>
+                                <li><strong>Antiplatelet (P2Y12 inhibitor):</strong> Clopidogrel, Ticagrelor, or Prasugrel (loading dose). Choice depends on STEMI vs NSTEMI/UA, planned strategy (PCI vs medical), and bleeding risk. <em>Prasugrel generally contraindicated if history of stroke/TIA.</em></li>
+                                <li><strong>Anticoagulation:</strong> Heparin (UFH or LMWH), Bivalirudin (esp. if PCI planned), or Fondaparinux (esp. if medically managed NSTEMI, but avoid as sole agent if PCI). Choice depends on strategy.</li>
+                                <li><strong>Beta-Blocker:</strong> Oral Metoprolol or Atenolol within 24 hrs if no contraindications (signs of HF, low output state, risk of cardiogenic shock, heart block, active asthma). Avoid IV beta-blockers acutely if unsure of stability.</li>
+                                <li><strong>Statin:</strong> High-intensity statin (Atorvastatin 80mg or Rosuvastatin 40mg) ASAP, regardless of baseline LDL.</li>
+                                <li><strong>Morphine:</strong> Use cautiously for refractory pain. Can mask symptoms, cause hypotension/respiratory depression. Small IV doses (2-4 mg).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">STEMI Pathway:</h3>
+                            <ul>
+                                <li><strong>Goal: Reperfusion ASAP!</strong> "Time is muscle."</li>
+                                <li><strong>Primary PCI (Percutaneous Coronary Intervention):</strong> Preferred strategy if available and timely.
+                                    <ul>
+                                        <li>Door-to-Device time goal: <strong>≤ 90 minutes</strong> (if patient presents to PCI-capable hospital).</li>
+                                        <li>Door-to-Device time goal: <strong>≤ 120 minutes</strong> (if patient needs transfer from non-PCI capable hospital).</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Fibrinolysis:</strong> If PCI is not available/timely.
+                                    <ul>
+                                        <li>Door-to-Needle time goal: <strong>≤ 30 minutes</strong>.</li>
+                                        <li>Best if symptom onset < 3 hours (consider up to 12 hours if PCI unavailable). Check absolute/relative contraindications carefully!</li>
+                                        <li>Often followed by transfer for angiography/PCI within 3-24 hours.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3 class="font-semibold">NSTEMI / UA Pathway:</h3>
+                             <ul>
+                                <li><strong>Risk Stratification:</strong> Use clinical judgment + risk scores (TIMI, GRACE) to guide strategy.
+                                    <ul>
+                                        <li><strong>TIMI Score (UA/NSTEMI):</strong> Estimates 14-day risk of death, MI, urgent revascularization. Factors: Age ≥65, ≥3 CAD risk factors, Known CAD (stenosis ≥50%), Aspirin use in past 7 days, Severe angina (≥2 episodes/24h), ST deviation ≥0.5mm, Positive cardiac marker.</li>
+                                        <li><strong>GRACE Score:</strong> More complex but better predictor of in-hospital and long-term mortality. Uses age, HR, SBP, creatinine, Killip class, cardiac arrest, ST deviation, elevated enzymes.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>High/Intermediate Risk Features:</strong> GRACE >140, TIMI ≥3, Dynamic ST/T changes, refractory angina, hemodynamic instability, VT/VF, new/worsening MR, LVEF <40%, post-MI angina → <strong>Early Invasive Strategy (Angiography +/- PCI within 24-72 hours).</strong></li>
+                                <li><strong>Low Risk Features:</strong> GRACE <109, TIMI 0-1, no high-risk features → <strong>Ischemia-Guided Strategy (Conservative):</strong> Medical management, consider stress testing before discharge. Angiography only if recurrent symptoms/ischemia or positive stress test.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="medications" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 5: Key Medications Deep Dive</h1>
+                 <div class="prose max-w-none">
+                    <ul>
+                        <li><strong>Aspirin (ASA):</strong> Irreversible COX-1 inhibitor → prevents Thromboxane A2 formation → reduces platelet aggregation. Load 162-325mg, maintenance 81mg daily indefinitely.</li>
+                        <li><strong>P2Y12 Inhibitors:</strong> Block ADP receptor P2Y12 on platelets → inhibit activation/aggregation.
+                            <ul>
+                                <li><em>Clopidogrel:</em> Prodrug. Load 300-600mg, maintenance 75mg daily. Slower onset, genetic variability in response.</li>
+                                <li><em>Ticagrelor:</em> Reversible binding. Load 180mg, maintenance 90mg BID x 1yr, then consider 60mg BID. Faster onset, more potent than clopidogrel. Side effects: dyspnea, bradycardia.</li>
+                                <li><em>Prasugrel:</em> Prodrug. Load 60mg, maintenance 10mg daily (5mg if <60kg or >75yrs). Most potent. Highest bleeding risk. C/I: Prior stroke/TIA. Use only if PCI planned.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Anticoagulants:</strong> Prevent fibrin formation, stabilize thrombus.
+                            <ul>
+                                <li><em>Unfractionated Heparin (UFH):</em> Binds Antithrombin III → inactivates Thrombin (IIa) & Factor Xa. IV infusion, requires PTT monitoring. Short half-life, reversible with Protamine.</li>
+                                <li><em>Low Molecular Weight Heparin (LMWH - Enoxaparin):</em> Primarily inhibits Factor Xa. SC injection, weight-based dosing, renal dose adjustment needed. Longer half-life, less monitoring needed. Partially reversible.</li>
+                                <li><em>Bivalirudin:</em> Direct Thrombin Inhibitor. IV. Short half-life. Used primarily during PCI, less HIT risk.</li>
+                                <li><em>Fondaparinux:</em> Selective Factor Xa inhibitor. SC daily. Renal dose adjustment/contraindicated in severe CKD. Lowest HIT risk. Avoid as sole agent in primary PCI.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Beta-Blockers (e.g., Metoprolol, Atenolol, Carvedilol):</strong> Reduce heart rate, contractility, BP → decrease myocardial oxygen demand. Improve long-term survival post-MI. Start low, go slow. C/I: Bradycardia, hypotension, decompensated HF, heart block (2nd/3rd degree), cocaine use.</li>
+                        <li><strong>Nitrates (Nitroglycerin):</strong> Vasodilation (venous > arterial) → reduce preload/afterload → decrease myocardial oxygen demand. Coronary vasodilation → improve oxygen supply. Symptom relief. C/I: SBP <90, RV infarct, PDE5 inhibitor use (within 24-48h).</li>
+                        <li><strong>Statins (High-Intensity: Atorvastatin 80mg, Rosuvastatin 40mg):</strong> Reduce LDL, pleiotropic effects (anti-inflammatory, plaque stabilization). Start early.</li>
+                        <li><strong>ACE Inhibitors / ARBs (e.g., Lisinopril, Ramipril / Losartan, Valsartan):</strong> Start within 24h (if stable) especially if anterior MI, HF (LVEF ≤40%), or diabetes. Prevent adverse ventricular remodeling. C/I: Hypotension, severe CKD/hyperkalemia, bilateral renal artery stenosis, angioedema.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="pitfalls" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 6: Common Pitfalls & Pearls</h1>
+                <div class="prose max-w-none">
+                    <ul>
+                        <li><strong>Missed Posterior MI:</strong> Look for ST depression V1-V3, get posterior leads (V7-V9).</li>
+                        <li><strong>Missed RV Infarct:</strong> Suspect with inferior STEMI. Look for ST elevation in V1 and especially V4R. Avoid nitrates/morphine due to preload dependency. Give fluids.</li>
+                        <li><strong>Atypical Presentations:</strong> Don't dismiss epigastric pain, dyspnea, fatigue, syncope, especially in elderly, women, diabetics. Have a low threshold for ECG/troponins.</li>
+                        <li><strong>Troponin Timing:</strong> Initial troponin can be negative. Need serial measurements. High-sensitivity troponins rise/fall faster.</li>
+                        <li><strong>ECG Interpretation Nuances:</strong> Compare to old ECGs! Don't anchor on one finding. Consider mimics. Dynamic changes are key.</li>
+                        <li><strong>Cocaine-induced Chest Pain:</strong> Can cause vasospasm mimicking ACS. Treat with Benzodiazepines, ASA, Nitrates. <strong>AVOID Beta-Blockers</strong> due to risk of unopposed alpha-stimulation worsening vasospasm/hypertension. Calcium channel blockers may be used.</li>
+                        <li><strong>Contraindications:</strong> Always double-check contraindications before giving NTG (RVI, PDE5i), Beta-blockers (HF, bradycardia, cocaine), Fibrinolysis (bleeding risk, recent surgery/stroke), Prasugrel (stroke/TIA).</li>
+                        <li><strong>Dual Antiplatelet Therapy (DAPT):</strong> Crucial post-ACS/PCI. Duration depends on stent type, bleeding risk (typically 6-12 months, sometimes longer or shorter).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="complications" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 7: Complications of MI</h1>
+                <div class="prose max-w-none">
+                    <ul>
+                        <li><strong>Arrhythmias:</strong> VF/VT (early, risk decreases after 24-48h), AF, Bradycardia/Heart Block (esp. inferior MI).</li>
+                        <li><strong>Cardiogenic Shock:</strong> Severe LV dysfunction. High mortality.</li>
+                        <li><strong>Acute Heart Failure / Pulmonary Edema:</strong> Due to LV systolic/diastolic dysfunction.</li>
+                        <li><strong>Mechanical Complications (Usually 3-7 days post-MI):</strong>
+                            <ul>
+                                <li><em>Ventricular Septal Rupture:</em> New harsh holosystolic murmur + shock.</li>
+                                <li><em>Papillary Muscle Rupture:</em> Acute severe Mitral Regurgitation (new murmur, pulmonary edema).</li>
+                                <li><em>Free Wall Rupture:</em> Catastrophic. Tamponade, PEA, sudden death.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Recurrent Ischemia / Re-infarction.</strong></li>
+                        <li><strong>Left Ventricular Aneurysm / Thrombus:</strong> Late complication, risk of stroke.</li>
+                        <li><strong>Pericarditis:</strong>
+                            <ul>
+                                <li><em>Early (Peri-infarction pericarditis):</em> Within days. Usually transient friction rub +/- pain. Treat with high-dose ASA (Colchicine optional). Avoid NSAIDs/steroids.</li>
+                                <li><em>Dressler's Syndrome:</em> Weeks to months later. Autoimmune. Fever, pleuritic pain, rub, effusion. Treat with ASA/NSAIDs/Colchicine/Steroids.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="mcq" class="content-section bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 border-b pb-2">Section 8: Knowledge Check - MCQs</h1>
+                <div id="mcq-container" class="space-y-8">
+                    </div>
+                <div id="mcq-results" class="mt-6 text-lg font-semibold"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- Navigation Logic ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        // Function to show the target section and hide others
+        function showSection(targetId) {
+            contentSections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+            // Update active link style
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === `#${targetId}`) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Add click listeners to nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor jump
+                const targetId = link.getAttribute('href').substring(1); // Get id without '#'
+                showSection(targetId);
+                // Scroll to top of main content on navigation (useful on mobile)
+                document.querySelector('main').scrollTop = 0;
+            });
+        });
+
+        // Show the initial section based on URL hash or default to 'basics'
+        const initialHash = window.location.hash.substring(1);
+        const validInitialHash = Array.from(contentSections).some(section => section.id === initialHash);
+        showSection(validInitialHash ? initialHash : 'basics');
+
+
+        // --- MCQ Logic ---
+        const mcqContainer = document.getElementById('mcq-container');
+        const mcqResults = document.getElementById('mcq-results');
+        let score = 0;
+        let questionsAnswered = 0;
+
+        const mcqData = [
+            {
+                question: "1. A 68-year-old male with hypertension and diabetes presents with 2 hours of crushing substernal chest pain radiating to his left arm, diaphoresis, and nausea. His initial ECG shows 3mm ST elevation in leads II, III, and aVF, with 1mm ST depression in leads I and aVL. Troponin is pending. What is the MOST appropriate next step in management?",
+                options: [
+                    "A. Administer sublingual nitroglycerin and obtain serial ECGs.",
+                    "B. Administer IV Metoprolol immediately.",
+                    "C. Activate the cardiac catheterization lab for primary PCI.",
+                    "D. Administer fibrinolytic therapy immediately."
+                ],
+                correctAnswerIndex: 2, // Index C
+                explanation: "The patient presents with classic symptoms and ECG findings of an acute inferior STEMI (ST elevation in II, III, aVF with reciprocal changes in I, aVL). The standard of care for STEMI is emergent reperfusion. Primary PCI is the preferred strategy if it can be performed within guideline-recommended timeframes (Door-to-Device ≤90 min). While NTG (A) might be given (cautiously in inferior MI), it's not the definitive next step. IV Beta-blockers (B) are generally given later once stable and contraindications ruled out, especially in inferior MI where bradycardia/heart block risk is higher. Fibrinolysis (D) is an option only if PCI is unavailable/delayed."
+            },
+            {
+                question: "2. A 72-year-old female presents with 3 days of intermittent epigastric discomfort and shortness of breath, worse today. ECG shows 1mm ST depression in V4-V6 and T-wave inversions in leads III and aVF. Initial Troponin I is elevated at 1.5 ng/mL (ULN <0.04). BP 130/80, HR 88. Besides ASA, Anticoagulation, and Statin, which management strategy is indicated?",
+                options: [
+                    "A. Immediate fibrinolysis.",
+                    "B. Urgent primary PCI within 90 minutes.",
+                    "C. Ischemia-guided (conservative) strategy with medical management initially.",
+                    "D. Early invasive strategy (angiography within 24-72 hours)."
+                ],
+                correctAnswerIndex: 3, // Index D
+                explanation: "The patient presents with NSTEMI (symptoms + ST depression + elevated troponin). Risk stratification is needed. Features suggesting higher risk include ongoing symptoms, ST depression, and elevated troponins. An early invasive strategy (angiography +/- PCI) is generally indicated for NSTEMI patients with intermediate-to-high risk features to identify and potentially treat the culprit lesion. Immediate fibrinolysis (A) is contraindicated in NSTEMI. Urgent primary PCI (B) is reserved for STEMI. A conservative strategy (C) is typically reserved for low-risk NSTEMI/UA patients."
+            },
+            {
+                question: "3. Which of the following ECG findings is MOST suggestive of a posterior STEMI?",
+                options: [
+                    "A. Diffuse ST elevation with PR depression.",
+                    "B. ST elevation in leads V1-V4.",
+                    "C. ST depression >1mm in leads V1-V3 with tall R waves.",
+                    "D. Deeply inverted T waves in V2-V3 during a pain-free interval."
+                ],
+                correctAnswerIndex: 2, // Index C
+                explanation: "Posterior MI often doesn't show direct ST elevation on a standard 12-lead ECG. The characteristic finding is reciprocal changes in the anterior leads (V1-V3): ST depression and tall, prominent R waves (as these leads are electrically opposite the posterior wall). Confirmation requires posterior leads (V7-V9) showing ST elevation. (A) suggests pericarditis. (B) suggests anterior STEMI. (D) suggests Wellens' Syndrome (critical LAD stenosis)."
+            },
+            {
+                question: "4. A 55-year-old male presents with chest pain after using cocaine. His ECG shows 1mm ST elevation in V2-V3. BP is 170/100, HR 110. Which medication should be AVOIDED in the initial management?",
+                 options: [
+                    "A. Aspirin",
+                    "B. Nitroglycerin",
+                    "C. Lorazepam",
+                    "D. Metoprolol"
+                ],
+                correctAnswerIndex: 3, // Index D
+                explanation: "In cocaine-induced chest pain/MI, beta-blockers are traditionally avoided initially due to the theoretical risk of unopposed alpha-adrenergic stimulation, which could worsen coronary vasoconstriction and hypertension. The primary treatment involves benzodiazepines (like Lorazepam, C) to reduce sympathetic drive and anxiety, Aspirin (A), and Nitrates (B) or Calcium Channel Blockers for vasospasm. While some newer data questions the absolute contraindication, it remains a standard precaution, especially acutely."
+            },
+             {
+                question: "5. A 60-year-old female undergoes successful PCI with a drug-eluting stent (DES) for an anterior STEMI. She has no history of stroke or high bleeding risk. What is the standard recommended duration for Dual Antiplatelet Therapy (DAPT) with Aspirin and Ticagrelor?",
+                 options: [
+                    "A. 1 month",
+                    "B. 3 months",
+                    "C. 6 months",
+                    "D. 12 months"
+                ],
+                correctAnswerIndex: 3, // Index D
+                explanation: "Following PCI with DES placement for ACS, the standard recommended duration of DAPT (Aspirin + a P2Y12 inhibitor like Ticagrelor or Clopidogrel) is typically 12 months to prevent stent thrombosis and recurrent ischemic events, unless there is a high bleeding risk or other specific contraindications. Shorter durations (A, B, C) may be considered in patients with very high bleeding risk, but 12 months is the standard default for most ACS patients receiving a DES."
+            }
+        ];
+
+        // Function to render MCQs
+        function renderMCQs() {
+            mcqContainer.innerHTML = ''; // Clear previous content
+            mcqData.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('mcq-question', 'border', 'border-gray-300', 'p-4', 'rounded-lg');
+                questionElement.dataset.questionIndex = index; // Store index
+
+                const questionText = document.createElement('p');
+                questionText.classList.add('font-semibold', 'mb-3');
+                questionText.textContent = q.question;
+                questionElement.appendChild(questionText);
+
+                const optionsList = document.createElement('div');
+                optionsList.classList.add('space-y-2');
+                q.options.forEach((option, optionIndex) => {
+                    const optionLabel = document.createElement('label');
+                    optionLabel.classList.add('mcq-option', 'block', 'p-3', 'border', 'border-gray-300', 'rounded-md', 'hover:bg-gray-100');
+                    optionLabel.dataset.optionIndex = optionIndex;
+
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question-${index}`;
+                    input.value = optionIndex;
+                    input.classList.add('mr-2', 'hidden'); // Hide radio button visually
+
+                    optionLabel.appendChild(input);
+                    optionLabel.appendChild(document.createTextNode(option));
+                    optionsList.appendChild(optionLabel);
+
+                    // Add click listener to the label itself for selection styling
+                    optionLabel.addEventListener('click', () => handleOptionSelect(questionElement, optionLabel));
+                });
+
+                questionElement.appendChild(optionsList);
+
+                // Add explanation container (initially hidden)
+                const explanationContainer = document.createElement('div');
+                explanationContainer.classList.add('explanation', 'hidden'); // Hidden by default
+                explanationContainer.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+                questionElement.appendChild(explanationContainer);
+
+                // Add Check Answer button
+                const checkButton = document.createElement('button');
+                checkButton.textContent = 'Check Answer';
+                checkButton.classList.add('mt-4', 'px-4', 'py-2', 'bg-blue-500', 'text-white', 'rounded', 'hover:bg-blue-600', 'disabled:opacity-50', 'disabled:cursor-not-allowed');
+                checkButton.disabled = true; // Disabled until an option is selected
+                checkButton.addEventListener('click', () => checkAnswer(questionElement));
+                questionElement.appendChild(checkButton);
+
+
+                mcqContainer.appendChild(questionElement);
+            });
+        }
+
+        // Handle option selection styling and enable check button
+        function handleOptionSelect(questionElement, selectedLabel) {
+             // Only allow selection if the answer hasn't been checked yet
+            if (questionElement.classList.contains('answered')) return;
+
+            const options = questionElement.querySelectorAll('.mcq-option');
+            options.forEach(opt => opt.classList.remove('selected')); // Remove selected style from others
+            selectedLabel.classList.add('selected'); // Add selected style to the clicked one
+
+            // Enable the check button
+            const checkButton = questionElement.querySelector('button');
+            checkButton.disabled = false;
+        }
+
+
+        // Function to check the selected answer
+        function checkAnswer(questionElement) {
+            if (questionElement.classList.contains('answered')) return; // Prevent re-checking
+
+            const questionIndex = parseInt(questionElement.dataset.questionIndex);
+            const selectedOption = questionElement.querySelector('input[type="radio"]:checked');
+            const explanationContainer = questionElement.querySelector('.explanation');
+            const options = questionElement.querySelectorAll('.mcq-option');
+            const checkButton = questionElement.querySelector('button');
+
+            if (!selectedOption) return; // Should not happen if button is enabled
+
+            const selectedIndex = parseInt(selectedOption.value);
+            const correctIndex = mcqData[questionIndex].correctAnswerIndex;
+
+            // Disable further interaction
+            questionElement.classList.add('answered');
+            options.forEach(opt => opt.style.pointerEvents = 'none'); // Disable clicking options
+            checkButton.disabled = true;
+            checkButton.textContent = 'Answered';
+
+
+            // Style options based on correctness
+            options.forEach((optLabel, index) => {
+                optLabel.classList.remove('selected'); // Remove selection highlight
+                if (index === correctIndex) {
+                    optLabel.classList.add('correct'); // Highlight correct answer in green
+                } else if (index === selectedIndex && selectedIndex !== correctIndex) {
+                    optLabel.classList.add('incorrect'); // Highlight incorrect selection in red
+                }
+            });
+
+            // Show explanation
+            explanationContainer.classList.remove('hidden');
+
+            // Update score
+            if (selectedIndex === correctIndex) {
+                score++;
+            }
+            questionsAnswered++;
+
+            // Update overall results display
+            mcqResults.textContent = `Score: ${score} / ${questionsAnswered} Answered`;
+        }
+
+        // Initial rendering of MCQs when the MCQ section is shown
+        const mcqSection = document.getElementById('mcq');
+        const observer = new MutationObserver((mutationsList) => {
+            for(let mutation of mutationsList) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (mcqSection.classList.contains('active') && mcqContainer.children.length === 0) {
+                         renderMCQs();
+                         // We only need to render once, disconnect observer after rendering
+                         observer.disconnect();
+                    }
+                }
+            }
+        });
+        observer.observe(mcqSection, { attributes: true });
+
+        // Also render if it's the initially active section
+        if (mcqSection.classList.contains('active')) {
+             renderMCQs();
+             observer.disconnect(); // Disconnect if rendered initially
+        }
+
+    </script>
+
+</body>
+</html>
