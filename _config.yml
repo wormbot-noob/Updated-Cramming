@@ -1,0 +1,6 @@
+# _config.yml
+title: "For Abeer - Study Hub"
+baseurl: ""     # if your site lives at root; otherwise e.g. "/myrepo"
+url: "https://<your-github-username>.github.io/<repo-name>"
+
+# optionally, configure collections/modules etc.
