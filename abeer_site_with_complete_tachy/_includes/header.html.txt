@@ -1,0 +1,12 @@
+<!-- _includes/header.html -->
+<header>
+  <h1>{{ site.title }}</h1>
+  <p>Your brain baby awaits. Let’s get you to the top 💪</p>
+  <div class="illustration">
+    <img src="{{ '/assets/images/abeer_dedication.png' | relative_url }}" alt="Dedication image">
+  </div>
+  <nav>
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <!-- add other global nav links here -->
+  </nav>
+</header>
